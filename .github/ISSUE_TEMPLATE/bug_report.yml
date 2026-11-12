@@ -1,0 +1,39 @@
+name: Bug report
+description: Something in the game doesn't work as expected
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: What did you expect, and what did you see instead?
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Press PLAY
+        2. Reach wave 3
+        3. ...
+    validations:
+      required: true
+  - type: input
+    id: browser
+    attributes:
+      label: Browser and version
+      placeholder: Chrome 140, Firefox 142, Edge 140 ...
+    validations:
+      required: true
+  - type: input
+    id: os
+    attributes:
+      label: Operating system and GPU
+      placeholder: Windows 11, Intel UHD 620
+  - type: textarea
+    id: console
+    attributes:
+      label: Console errors
+      description: Press F12, open the Console tab, and paste any red errors.
+      render: text
