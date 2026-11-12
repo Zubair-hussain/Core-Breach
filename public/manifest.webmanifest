@@ -1,0 +1,20 @@
+{
+  "name": "Core Breach",
+  "short_name": "Core Breach",
+  "description": "A free browser FPS. Survive waves of rogue AI cores in a neon city.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "fullscreen",
+  "orientation": "landscape",
+  "background_color": "#04070f",
+  "theme_color": "#04070f",
+  "categories": ["games", "entertainment"],
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
