@@ -1,0 +1,20 @@
+# Dependencies
+node_modules/
+
+# Netlify CLI
+.netlify/
+
+# Release archives built by CI
+*.zip
+
+# Logs and caches
+npm-debug.log*
+.eslintcache
+coverage/
+
+# Editors and OS
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+Thumbs.db
