@@ -1,0 +1,19 @@
+name: Label pull requests
+
+on:
+  pull_request_target:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  label:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      # pull_request_target runs trusted code from the base branch only. It never checks out the pull request.
+      - uses: actions/labeler@v7
+        with:
+          sync-labels: true
