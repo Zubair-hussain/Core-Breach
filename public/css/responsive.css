@@ -1,0 +1,46 @@
+/* Phones and tablets: there are no touch controls yet, so say so instead of showing a dead PLAY button. */
+@media (hover: none) and (pointer: coarse) {
+  #play,
+  .keys {
+    display: none;
+  }
+  .desktop-only {
+    display: block;
+  }
+}
+
+/* Smaller laptop screens: tighten the HUD. */
+@media (max-width: 900px) {
+  #topbar {
+    gap: 8px;
+  }
+  .stat {
+    min-width: 72px;
+    padding: 4px 10px;
+  }
+  #radar {
+    width: 120px;
+    height: 120px;
+  }
+  #feed {
+    top: 150px;
+  }
+  #health {
+    width: 200px;
+  }
+  #ammo b {
+    font-size: 48px;
+  }
+  #banner {
+    font-size: 48px;
+  }
+}
+
+@media (max-height: 640px) {
+  .enemies {
+    margin: 8px 0;
+  }
+  .lead {
+    font-size: 17px;
+  }
+}
