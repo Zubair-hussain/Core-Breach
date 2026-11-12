@@ -1,0 +1,143 @@
+/* Main menu and game-over screen. */
+.overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(ellipse at center, rgba(4, 7, 15, 0.55), rgba(4, 7, 15, 0.92));
+  padding: 16px;
+}
+
+.box {
+  max-width: 720px;
+  width: 100%;
+  text-align: center;
+}
+
+.tag {
+  letter-spacing: 6px;
+  font-weight: 700;
+  color: var(--cy);
+  font-size: 14px;
+}
+.tag.danger {
+  color: var(--red);
+}
+
+h1 {
+  margin: 6px 0 0;
+  font-size: clamp(48px, 11vw, 104px);
+  letter-spacing: 4px;
+  line-height: 1;
+  text-shadow: 0 0 40px rgba(25, 227, 255, 0.45);
+}
+h1 .ch {
+  display: inline-block;
+}
+h2 {
+  margin: 0;
+  font-size: clamp(22px, 4vw, 34px);
+  letter-spacing: 14px;
+  color: var(--cy);
+}
+
+.lead {
+  font-size: 20px;
+  opacity: 0.85;
+}
+.lead b {
+  color: var(--gold);
+}
+
+.enemies {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 18px 0;
+}
+.enemies div {
+  background: var(--card);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 10px 16px;
+  border-radius: 8px;
+  min-width: 150px;
+}
+.enemies b {
+  display: block;
+  letter-spacing: 3px;
+}
+.enemies small {
+  opacity: 0.7;
+}
+.swatch {
+  display: block;
+  width: 16px;
+  height: 16px;
+  transform: rotate(45deg);
+  margin: 0 auto 6px;
+}
+.swatch.crystal {
+  background: var(--or);
+}
+.swatch.prism {
+  background: var(--bl);
+}
+.swatch.knot {
+  background: var(--gr);
+}
+
+button,
+.button {
+  display: inline-block;
+  text-decoration: none;
+  pointer-events: auto;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 26px;
+  letter-spacing: 6px;
+  padding: 12px 56px;
+  border: 2px solid var(--cy);
+  background: rgba(25, 227, 255, 0.12);
+  color: #fff;
+  border-radius: 6px;
+  margin: 10px 0;
+}
+button:hover,
+.button:hover {
+  background: var(--cy);
+  color: #04101c;
+}
+
+.keys {
+  opacity: 0.75;
+  font-size: 15px;
+  line-height: 2;
+}
+kbd {
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 4px;
+  padding: 1px 7px;
+  margin: 0 3px 0 10px;
+  font-family: inherit;
+  font-weight: 700;
+}
+
+.best {
+  margin-top: 10px;
+  letter-spacing: 4px;
+  font-size: 14px;
+  opacity: 0.8;
+}
+.best b {
+  color: var(--gold);
+}
+
+.desktop-only {
+  display: none;
+  color: var(--gold);
+  font-weight: 700;
+  letter-spacing: 1px;
+}
