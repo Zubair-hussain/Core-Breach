@@ -1,0 +1,42 @@
+gameplay:
+  - changed-files:
+      - any-glob-to-any-file:
+          [
+            'public/js/enemies/**',
+            'public/js/weapon/**',
+            'public/js/player/**',
+            'public/js/game/**',
+            'public/js/pickups/**',
+          ]
+
+graphics:
+  - changed-files:
+      - any-glob-to-any-file: ['public/js/world/**', 'public/js/fx/**', 'public/js/core/**']
+
+audio:
+  - changed-files:
+      - any-glob-to-any-file: ['public/js/audio/**']
+
+ui:
+  - changed-files:
+      - any-glob-to-any-file: ['public/css/**', 'public/js/ui/**', 'public/index.html']
+
+input:
+  - changed-files:
+      - any-glob-to-any-file: ['public/js/input/**']
+
+ci-cd:
+  - changed-files:
+      - any-glob-to-any-file: ['.github/**', 'netlify.toml', 'scripts/**']
+
+documentation:
+  - changed-files:
+      - any-glob-to-any-file: ['README.md', 'docs/**', '*.md']
+
+tests:
+  - changed-files:
+      - any-glob-to-any-file: ['tests/**']
+
+dependencies:
+  - changed-files:
+      - any-glob-to-any-file: ['package.json', 'package-lock.json', 'public/lib/**']
