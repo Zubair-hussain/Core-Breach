@@ -1,0 +1,78 @@
+# Netlify configuration for Core Breach.
+# The game is static: no bundler. The build command only verifies that nothing is broken,
+# so a bad commit fails the deploy instead of going live.
+
+[build]
+  publish = "public"
+  command = "node scripts/check-assets.mjs"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# Production deploys come from the _Prod branch (set it as the production branch in Netlify).
+[context.production.environment]
+  CORE_BREACH_ENV = "production"
+
+# Every pull request gets its own preview URL.
+[context.deploy-preview.environment]
+  CORE_BREACH_ENV = "preview"
+
+# Short, shareable links.
+[[redirects]]
+  from = "/play"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/source"
+  to = "https://github.com/Zubair-hussain/Core-Breach"
+  status = 302
+
+[[redirects]]
+  from = "/report-bug"
+  to = "https://github.com/Zubair-hussain/Core-Breach/issues/new/choose"
+  status = 302
+
+# Security headers on every response.
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "DENY"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=()"
+    Cross-Origin-Opener-Policy = "same-origin"
+    Content-Security-Policy = "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: blob:; connect-src 'self'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'none'"
+
+# Vendored libraries never change under the same name: cache for a year.
+[[headers]]
+  for = "/lib/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
+
+# Game code and styles are not fingerprinted, so browsers must check for a new version.
+[[headers]]
+  for = "/js/*"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/css/*"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+# The service worker must always be fresh, or players get stuck on an old build.
+[[headers]]
+  for = "/sw.js"
+  [headers.values]
+    Cache-Control = "no-cache"
+
+[[headers]]
+  for = "/manifest.webmanifest"
+  [headers.values]
+    Content-Type = "application/manifest+json"
