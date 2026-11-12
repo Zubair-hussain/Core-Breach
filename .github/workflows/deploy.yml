@@ -1,0 +1,86 @@
+name: Deploy to Netlify
+
+# Production: every push to _Prod, after CI passes.
+# Preview: every pull request gets its own URL, posted as a comment.
+# Needs two repository secrets: NETLIFY_AUTH_TOKEN and NETLIFY_SITE_ID. See docs/DEPLOYMENT.md.
+
+on:
+  push:
+    branches: [_Prod]
+  pull_request:
+    branches: [_Prod]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  pull-requests: write
+  deployments: write
+
+jobs:
+  deploy:
+    name: ${{ github.event_name == 'pull_request' && 'Deploy preview' || 'Deploy production' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+      NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+    steps:
+      - name: Skip when Netlify secrets are not set
+        id: gate
+        run: |
+          if [ -z "$NETLIFY_AUTH_TOKEN" ] || [ -z "$NETLIFY_SITE_ID" ]; then
+            echo "Netlify secrets are not configured. Skipping deploy. See docs/DEPLOYMENT.md."
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: actions/checkout@v7
+        if: steps.gate.outputs.enabled == 'true'
+
+      - uses: actions/setup-node@v7
+        if: steps.gate.outputs.enabled == 'true'
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install and verify
+        if: steps.gate.outputs.enabled == 'true'
+        run: |
+          npm ci
+          npm run ci
+
+      - name: Deploy
+        id: netlify
+        if: steps.gate.outputs.enabled == 'true'
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            npx --yes netlify-cli@27 deploy --dir=public --alias="pr-${{ github.event.number }}" --message="PR ${{ github.event.number }}" --json > deploy.json
+          else
+            npx --yes netlify-cli@27 deploy --dir=public --prod --message="${{ github.sha }}" --json > deploy.json
+          fi
+          echo "url=$(node -p "JSON.parse(require('fs').readFileSync('deploy.json','utf8')).deploy_url")" >> "$GITHUB_OUTPUT"
+
+      - name: Comment the preview link
+        if: steps.gate.outputs.enabled == 'true' && github.event_name == 'pull_request'
+        uses: actions/github-script@v9
+        with:
+          script: |
+            const url = '${{ steps.netlify.outputs.url }}';
+            const marker = '<!-- core-breach-preview -->';
+            const body = `${marker}\n**Preview ready:** ${url}\n\nBuilt from ${context.sha.slice(0, 7)}.`;
+            const { data: comments } = await github.rest.issues.listComments({ ...context.repo, issue_number: context.issue.number });
+            const existing = comments.find((c) => c.body.includes(marker));
+            if (existing) await github.rest.issues.updateComment({ ...context.repo, comment_id: existing.id, body });
+            else await github.rest.issues.createComment({ ...context.repo, issue_number: context.issue.number, body });
+
+      - name: Smoke test the live site
+        if: steps.gate.outputs.enabled == 'true' && github.event_name != 'pull_request'
+        run: |
+          sleep 5
+          curl --fail --silent --show-error --location https://core-breach.netlify.app/ | grep -q "Core Breach"
+          curl --fail --silent --show-error --head https://core-breach.netlify.app/js/main.js
