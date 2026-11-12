@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Core Breach | Free Browser FPS Built with three.js</title>
+    <meta
+      name="description"
+      content="Core Breach is a free first-person shooter that runs in your browser. Fight waves of rogue AI cores in a neon city. No install, no download."
+    />
+    <meta name="theme-color" content="#04070f" />
+    <link rel="canonical" href="https://core-breach.netlify.app/" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Core Breach" />
+    <meta property="og:title" content="Core Breach: a free browser FPS against rogue AI cores" />
+    <meta
+      property="og:description"
+      content="Survive waves of rogue AI cores in a neon city. Runs in your browser, no install."
+    />
+    <meta property="og:url" content="https://core-breach.netlify.app/" />
+    <meta property="og:image" content="https://core-breach.netlify.app/images/og-image.jpg" />
+    <meta property="og:image:width" content="1280" />
+    <meta property="og:image:height" content="720" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="stylesheet" href="/css/base.css" />
+    <link rel="stylesheet" href="/css/hud.css" />
+    <link rel="stylesheet" href="/css/menu.css" />
+    <link rel="stylesheet" href="/css/responsive.css" />
+    <link rel="modulepreload" href="/js/main.js" />
+  </head>
+  <body>
+    <canvas id="game" aria-label="Core Breach game view"></canvas>
+
+    <div id="hud" class="hidden" aria-hidden="true">
+      <div id="crosshair"><span></span><span></span><span></span><span></span></div>
+      <div id="hitmark">✕</div>
+      <div id="dmg"></div>
+      <div id="topbar">
+        <div class="stat"><small>WAVE</small><b id="wave">1</b></div>
+        <div class="stat"><small>SCORE</small><b id="score">0</b></div>
+        <div class="stat"><small>KILLS</small><b id="kills">0</b></div>
+      </div>
+      <canvas id="radar" width="170" height="170"></canvas>
+      <div id="health">
+        <div class="lbl">HP <b id="hpText">100</b></div>
+        <div class="bar"><div id="hpBar"></div></div>
+      </div>
+      <div id="ammo">
+        <b id="mag">30</b><span>/ <i id="reserve">120</i></span>
+        <div id="reloadTxt">RELOADING</div>
+      </div>
+      <div id="feed"></div>
+      <div id="banner"></div>
+      <div id="pops"></div>
+    </div>
+
+    <main id="menu" class="overlay">
+      <div class="box">
+        <div class="tag">BROWSER FPS · NO INSTALL</div>
+        <h1 id="title">CORE BREACH</h1>
+        <h2>ROGUE AI ARENA</h2>
+        <p class="lead">Three rogue AI cores have taken the city. Survive the waves.</p>
+        <div class="enemies">
+          <div><i class="swatch crystal"></i><b>CRYSTAL</b><small>Tank · slow bolts</small></div>
+          <div><i class="swatch prism"></i><b>PRISM</b><small>Fast · rams you</small></div>
+          <div><i class="swatch knot"></i><b>KNOT</b><small>Flanks · burst fire</small></div>
+        </div>
+        <button id="play" type="button">PLAY</button>
+        <div class="keys">
+          <kbd>WASD</kbd> move <kbd>SHIFT</kbd> sprint <kbd>SPACE</kbd> jump <kbd>MOUSE</kbd> aim / shoot
+          <kbd>R</kbd> reload <kbd>ESC</kbd> pause
+        </div>
+        <div class="best">BEST SCORE <b id="best">0</b></div>
+        <p class="desktop-only">Core Breach needs a keyboard and mouse. Open it on a computer to play.</p>
+        <noscript><p class="desktop-only">Core Breach needs JavaScript to run.</p></noscript>
+      </div>
+    </main>
+
+    <div id="over" class="overlay hidden" role="dialog" aria-labelledby="overTitle">
+      <div class="box">
+        <div class="tag danger">MISSION FAILED</div>
+        <h1 id="overTitle">GAME OVER</h1>
+        <p class="lead">
+          Score <b id="finalScore">0</b> · Wave <b id="finalWave">1</b> · Kills <b id="finalKills">0</b>
+        </p>
+        <button id="again" type="button">PLAY AGAIN</button>
+      </div>
+    </div>
+
+    <script src="/lib/three.min.js"></script>
+    <script src="/lib/gsap.min.js"></script>
+    <script src="/lib/anime.min.js"></script>
+    <script type="module" src="/js/main.js"></script>
+  </body>
+</html>
